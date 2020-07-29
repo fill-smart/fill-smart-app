@@ -1,0 +1,1 @@
+export ENVFILE=.env.production && cd android && ./gradlew assembleRelease

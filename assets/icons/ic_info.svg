@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34.361" height="33.361" viewBox="0 0 34.361 33.361">
+  <g id="Icono_Ok" data-name="Icono Ok" transform="translate(0.827 -0.238)">
+    <ellipse id="Elipse_" data-name="Elipse " cx="15.5" cy="15" rx="15.5" ry="15" transform="translate(-0.827 0.238)" fill="#4889ff" opacity="0.2"/>
+    <path id="Trazado_" data-name="Trazado " d="M21.961,3.19A16.181,16.181,0,1,0,38.141,19.371,16.2,16.2,0,0,0,21.961,3.19Zm0,30.233A14.053,14.053,0,1,1,36.013,19.371,14.068,14.068,0,0,1,21.961,33.423Zm0,0" transform="translate(-4.607 -1.952)" fill="#4889ff"/>
+    <path id="Path_611" data-name="Path 611" d="M4.22-12.38q0,.5-.54.5H1.52a.443.443,0,0,1-.34-.11.51.51,0,0,1-.1-.35v-2.1q0-.4.34-.4H3.9a.3.3,0,0,1,.23.1.4.4,0,0,1,.09.28ZM4.18-.48a.484.484,0,0,1-.12.37A.622.622,0,0,1,3.64,0H1.54A.471.471,0,0,1,1.2-.1a.438.438,0,0,1-.1-.32v-9.8q0-.38.34-.38H3.88q.3,0,.3.34Z" transform="translate(15.092 25.078)" fill="#4889ff"/>
+  </g>
+</svg>

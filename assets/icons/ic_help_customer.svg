@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="54.89" height="53.533" viewBox="0 0 54.89 53.533">
+  <g id="ic_help_customer" transform="translate(0.3 -0.41)">
+    <g id="Grupo_1436" data-name="Grupo 1436">
+      <ellipse id="Elipse_" data-name="Elipse " cx="24.5" cy="24" rx="24.5" ry="24" transform="translate(-0.3 0.41)" fill="#4889ff" opacity="0.2"/>
+      <path id="Trazado_" data-name="Trazado " d="M31.832,3.19A26.052,26.052,0,1,0,57.884,29.242,26.083,26.083,0,0,0,31.832,3.19Zm0,48.678A22.626,22.626,0,1,1,54.458,29.242,22.65,22.65,0,0,1,31.832,51.868Zm0,0" transform="translate(-3.294 -1.351)" fill="#4889ff"/>
+      <g id="Componente_1_1" data-name="Componente 1 – 1" transform="translate(20.7 9.41)">
+        <text id="_" data-name="?" transform="translate(0 30)" fill="#4889ff" stroke="#4889ff" stroke-width="1" font-size="31" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">?</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

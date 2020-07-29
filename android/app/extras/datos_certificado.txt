@@ -1,0 +1,5 @@
+FILLSMART PROD ANDORID
+--------------------------
+keystore pass: NVwTfbCw
+alias: fillsmart_key
+key_password: NVwTfbCw

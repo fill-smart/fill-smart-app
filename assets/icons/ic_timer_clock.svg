@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="109" height="101.117" viewBox="0 0 109 101.117">
+  <g id="ic_timer_clock" transform="translate(-136 -208)">
+    <g id="Icono_Ok" data-name="Icono Ok" transform="translate(134.828 207.751)">
+      <ellipse id="Elipse_" data-name="Elipse " cx="47" cy="45.5" rx="47" ry="45.5" transform="translate(1.173 0.249)" fill="#4889ff" opacity="0.2"/>
+      <path id="Trazado_" data-name="Trazado " d="M54.828,3.19a49.048,49.048,0,1,0,49.048,49.048A49.106,49.106,0,0,0,54.828,3.19Zm0,91.645a42.6,42.6,0,1,1,42.6-42.6,42.643,42.643,0,0,1-42.6,42.6Zm0,0" transform="translate(-0.545 0.079)" fill="#4889ff"/>
+      <g id="Grupo_1440" data-name="Grupo 1440">
+        <g id="Grupo_1441" data-name="Grupo 1441">
+          <rect id="Rectángulo_464" data-name="Rectángulo 464" width="6" height="43" rx="3" transform="translate(53.172 17.249)" fill="#4889ff"/>
+          <rect id="Rectángulo_465" data-name="Rectángulo 465" width="6.686" height="25.63" rx="3" transform="translate(37.283 42.717) rotate(-45)" fill="#4889ff"/>
+        </g>
+      </g>
+    </g>
+    <g id="Grupo_1438" data-name="Grupo 1438" transform="translate(-10.637 -14.637)">
+      <g id="Elipse_20" data-name="Elipse 20" transform="translate(212.638 275.637)" fill="#fff" stroke="#4889ff" stroke-width="4">
+        <circle cx="21.5" cy="21.5" r="21.5" stroke="none"/>
+        <circle cx="21.5" cy="21.5" r="19.5" fill="none"/>
+      </g>
+      <path id="Trazado_659" data-name="Trazado 659" d="M6.487-10.6q0,.861-.93.861H1.838a.763.763,0,0,1-.585-.189.879.879,0,0,1-.172-.6v-3.616q0-.689.585-.689H5.936a.509.509,0,0,1,.4.172.7.7,0,0,1,.155.482ZM6.418,9.888a.833.833,0,0,1-.207.637,1.072,1.072,0,0,1-.723.189H1.872a.811.811,0,0,1-.585-.172.755.755,0,0,1-.172-.551V-6.884q0-.654.585-.654H5.9q.517,0,.517.585Z" transform="translate(238.124 295.352) rotate(180)" fill="#4889ff"/>
+    </g>
+  </g>
+</svg>

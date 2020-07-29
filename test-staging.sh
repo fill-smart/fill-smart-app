@@ -1,0 +1,1 @@
+export ENVFILE=.env.staging && npx react-native run-android --variant=release

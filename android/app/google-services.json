@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391732668430",
+    "firebase_url": "https://fillsmart-development.firebaseio.com",
+    "project_id": "fillsmart-development",
+    "storage_bucket": "fillsmart-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391732668430:android:e7d38647b8d219ce22b45f",
+        "android_client_info": {
+          "package_name": "com.silentiumapps.fillsmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391732668430-hrr640eb4d8vfg0hdk8k4c2h2mpr0m4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2gegddxdvi8VOXtRTDNcvB62EAieGt7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391732668430-hrr640eb4d8vfg0hdk8k4c2h2mpr0m4g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
