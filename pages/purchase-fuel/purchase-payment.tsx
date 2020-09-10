@@ -76,6 +76,7 @@ const PurchasePayment = () => {
         }}
         renderLoading={() => <Loader />}
         startInLoadingState
+        androidHardwareAccelerationDisabled={true}
         source={{ uri: purchase?.preferenceUrl! }}></WebView>
       {ContinueButton}
     </React.Fragment>

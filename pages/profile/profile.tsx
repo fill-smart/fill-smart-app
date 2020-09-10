@@ -16,6 +16,9 @@ import Button from '../../components/button.component';
 import { PROFILE_ROUTES, getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { SecurityContext } from '../../contexts/security.context';
+import ImagePickerModal from '../../components/image-picker.modal.component';
+import ImagePicker from 'react-native-image-picker';
+import useProfileUploadImage from '../../hooks/use-profile-upload-image';
 
 
 const styles = StyleSheet.create({
@@ -82,28 +85,64 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: THEME_COLORS.FONT_NORMAL,
     },
+    changePasswordText: {
+        fontFamily: "LibreFranklin-Regular",
+        fontSize: 14,
+        color: THEME_COLORS.PRIMARY,
+    },
     editButton: {
         borderRadius: 0,
         height: 45
     }
 });
 
-const Profile = () => {
+const ProfilePage = () => {
     const navigation = useNavigation();
-    const { profile, loading, error, refetch } = useProfile();
+    const [showImagePickerModal, setShowImagePickerModal] = useState(false);
+    const { profile, loading: queryLoading, error: queryError, refetch } = useProfile();
+    const { customerId, loading: uploadLoading, error: uploadError, executeUploadImage } = useProfileUploadImage();
     const [securityCtx] = useContext(SecurityContext);
     moment.locale("es");
 
-    const goProfileCamera = () => {
-        navigation.navigate({routeName: getRoutePath(PROFILE_ROUTES.ProfileCamera, PROFILE_ROUTES), params: {refetch}});
+    useEffect(() => {
+        if (customerId) {
+          refetch();
+        }
+      }, [customerId]);
+
+    const goToChangePassword = () => {
+        navigation.navigate(getRoutePath(PROFILE_ROUTES.ChangePassword, PROFILE_ROUTES));
+    };
+
+    const uploadImageFromGallery = () => {
+        ImagePicker.launchImageLibrary({}, (response) => {
+            if (!response.didCancel) {
+                executeUploadImage({ image: response.data });
+            }
+        });
     }
 
-    if (loading) {
+    const openSelectedOption = (option: "camera" | "gallery") => {
+        if (option === "camera") {
+            navigation.navigate({routeName: getRoutePath(PROFILE_ROUTES.ProfileCamera, PROFILE_ROUTES), params: {refetch}});
+        }
+        else if (option === "gallery") {
+            uploadImageFromGallery();
+        }
+        setShowImagePickerModal(false);
+    };
+
+    if (queryLoading || uploadLoading) {
         return <Loader />;
     }
 
     return (
         <ShowStatusBarLayout>
+            <ImagePickerModal
+                onOptionSelected={openSelectedOption}
+                isModalVisible={showImagePickerModal}
+                onClose={() => {setShowImagePickerModal(false)}}
+            />
             <ScrollView>
                 <View style={styles.actionBar}>
                     <TouchableOpacity onPress={() => {
@@ -131,7 +170,7 @@ const Profile = () => {
                             : <ProfileDefaultIcon width={150} height={150} />
                         }
                         <View style={styles.cameraBackGround}>
-                            <TouchableOpacity onPress={goProfileCamera}>
+                            <TouchableOpacity onPress={() => { setShowImagePickerModal(true) }}>
                                 <CameraIcon />
                             </TouchableOpacity>
                         </View>
@@ -174,6 +213,13 @@ const Profile = () => {
                         <Text style={styles.formLabel}>Email de Mercado Pago</Text>
                         <Text style={styles.formValue}>{profile?.customer.mercadopagoAccount.length ? profile?.customer.mercadopagoAccount : "-"}</Text>
                     </View>
+
+                    <View style={styles.formGroup}>
+                        <Text style={styles.formLabel}>Contraseña</Text>
+                        <TouchableOpacity onPress={goToChangePassword}>
+                            <Text style={styles.changePasswordText}>Cambiar contraseña</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
 
@@ -182,8 +228,8 @@ const Profile = () => {
     );
 }
 
-Profile.navigationOptions = {
+ProfilePage.navigationOptions = {
     header: null
 };
 
-export default Profile;
+export default ProfilePage;

@@ -21,7 +21,7 @@ const Container = styled.View`
 
 const Title = styled.Text`
   align-self: center;
-  font-family: 'LibreFranklin-Thin';
+  font-family: 'LibreFranklin-Regular';
   font-size: 14px;
   margin-bottom: 15px;
   text-align: center;
@@ -48,6 +48,13 @@ const NotificationText = styled.Text`
   color: ${THEME_COLORS.FONT_REGULAR};
 `;
 
+const UserNotFoundText = styled.Text`
+  align-self: center;
+  font-family: 'LibreFranklin-Thin';
+  font-size: 14px;
+  text-align: center;
+`;
+
 const color: { label: string; border: string, text: string } | undefined = { label: THEME_COLORS.TRANSFER_LITRES, border: THEME_COLORS.TRANSFER_LITRES, text: THEME_COLORS.FONT_REGULAR };
 
 const TransferSearchUserPage = () => {
@@ -55,9 +62,6 @@ const TransferSearchUserPage = () => {
     const [search, setSearch] = useState('');
     const {searchCustomers, data, loading} = useCustomerSearch();
     const [_, dispatch] = useContext(TransferContext);
-
-    console.log(data)
-
 
     const enterSearch = () => {
         searchCustomers(search);
@@ -91,18 +95,23 @@ const TransferSearchUserPage = () => {
                 <Button label="Buscar" style={{marginTop: 20}} colors={{background: THEME_COLORS.TRANSFER_LITRES}} onPress={enterSearch}/>
 
                 <View style={{marginTop: 25}}>
-                    {loading ? <Loader /> :
-                    <FlatList data={data?.customerSearch} keyExtractor={(_, index) => index.toString()}
-                        renderItem={({ item, index }) =>
-                            <TouchableOpacity onPress={() => selectCustomer(item)}>
-                                <NotificationCard>
-                                    <NotificationTitle>{item.firstName + ' ' + item.lastName}</NotificationTitle>
-                                    <NotificationText>{"DNI: " + item.documentNumber}</NotificationText>
-                                </NotificationCard>
-                            </TouchableOpacity>
-                        }
-                        showsVerticalScrollIndicator={false}
-                    />
+                    {loading ? <Loader height={30} width={30} /> 
+                        : data?.customerSearch.length === 0 ?
+                        <UserNotFoundText>
+                            No se encontró ningún usuario con ese DNI.
+                        </UserNotFoundText> 
+                        :
+                        <FlatList data={data?.customerSearch} keyExtractor={(_, index) => index.toString()}
+                            renderItem={({ item, index }) =>
+                                <TouchableOpacity onPress={() => selectCustomer(item)}>
+                                    <NotificationCard>
+                                        <NotificationTitle>{item.firstName + ' ' + item.lastName}</NotificationTitle>
+                                        <NotificationText>{"DNI: " + item.documentNumber}</NotificationText>
+                                    </NotificationCard>
+                                </TouchableOpacity>
+                            }
+                            showsVerticalScrollIndicator={false}
+                        />
                     }
                 </View>
             </Container>

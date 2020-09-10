@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 
 let loading = false;
 
-const ProfileCamera = ({ isFocused }: { isFocused: boolean }) => {
+const ProfileCameraPage = ({ isFocused }: { isFocused: boolean }) => {
   const navigation = useNavigation();
   const { customerId, error, executeUploadImage } = useProfileUploadImage();
   const refetch = useNavigationParam("refetch");
@@ -120,8 +120,8 @@ const ProfileCamera = ({ isFocused }: { isFocused: boolean }) => {
   );
 };
 
-ProfileCamera.navigationOptions = {
+ProfileCameraPage.navigationOptions = {
   header: null,
 };
 
-export default withNavigationFocus(ProfileCamera);
+export default withNavigationFocus(ProfileCameraPage);

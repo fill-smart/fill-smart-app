@@ -1,5 +1,10 @@
 import { IBaseModel } from "./base.model";
 
+export enum AccountStatusEnum {
+    Active = "active",
+    Inactive = "inactive"
+}
+
 export interface ICustomerModel extends IBaseModel{
     firstName: string;
     lastName: string;

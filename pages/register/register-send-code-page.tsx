@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
         fontFamily: 'LibreFranklin-Regular',
         color: THEME_COLORS.FONT_NORMAL,
         marginLeft: 24
+    },
+    input: {
+        marginBottom: 6
     }
 });
 
@@ -83,7 +86,6 @@ const RegisterSendCodePage = () => {
         }
     }
 
-
     const goToRegisterEnterMailPage = () => {
         navigation.navigate(getRoutePath(REGISTER_ROUTES.RegisterEnterEmail, REGISTER_ROUTES));
     }
@@ -97,27 +99,24 @@ const RegisterSendCodePage = () => {
                 <ScrollView keyboardShouldPersistTaps="always" contentContainerStyle={{ height: screenHeight }} >
                     <Container>
                         <InfoPanel>
-
                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                <IconMessage icon={<PhoneIcon />} title="Celular" text="Enviaremos un código de verificación" ></IconMessage>
-
+                                <IconMessage icon={<PhoneIcon />} title="Celular"></IconMessage>
                                 <View style={{ marginTop: 20, width: "100%" }}>
                                     <Input
+                                        style={styles.input} 
                                         text={watchForm.phone}
                                         keyboardType="number-pad"
                                         onSubmitEditing={handleSubmit(onSubmit)}
                                         returnKeyType="done"
                                         onChangeText={text => setValue('phone', text, true)}
                                         label={errors.phone ? errors.phone.message : "Nro. de celular"}
-                                        colors={errors.phone ? errorStyle : undefined} />
-
+                                        colors={errors.phone ? errorStyle : undefined}
+                                    />
                                     <Text style={styles.label}>Con el código de área y sin el 15.</Text>
                                     <Text style={styles.label}>Por ejemplo: 114444444 para Buenos Aires</Text>
                                 </View>
                             </View>
-
                             <Button label="Siguiente" onPress={handleSubmit(onSubmit)} style={{ marginTop: 20 }}></Button>
-
                         </InfoPanel>
                     </Container>
                 </ScrollView>

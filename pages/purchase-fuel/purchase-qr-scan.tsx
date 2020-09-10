@@ -38,16 +38,15 @@ const TitleContainer = styled.View`
   z-index:999;
 `;
 
+let isReadingQr: boolean = false;
+
 const PurchaseQrScanPage = () => {
   const navigation = useNavigation() as StackNavigationProp;
-  const [errorRead, setErrorRead] = useState(false);
+  const [invalidOperationError, setInvalidOperationError] = useState(false);
   const [qrShowLine, setQRShowLine] = useState(true);
   const { sendRequest, purchase, loading, error } = useRequestAddFuelToWallet()
   const [scannerMargin, setScannerMargin] = useState(new Animated.Value(-100))
   const widthQrWindow = Dimensions.get('window').width / 2 + Dimensions.get('window').width / 6;
-
-
-
 
   useEffect(() => {
     if (purchase) {
@@ -65,6 +64,10 @@ const PurchaseQrScanPage = () => {
   }, [purchase]);
 
   const onRead = ({ type, data }: { type: string, data: string }) => {
+    if (isReadingQr) {
+      return;
+    }
+    isReadingQr = true;
     setQRShowLine(false);
     try {
       if (type !== "QR_CODE" && type !== "qr" && type != "org.iso.QRCode") {
@@ -74,18 +77,22 @@ const PurchaseQrScanPage = () => {
       const qrData: QRModel = JSON.parse(data);
 
       if (qrData.operationType !== "purchase") {
-        setErrorRead(true);
+        setInvalidOperationError(true);
         return;
       }
-
       sendRequest(qrData.gasStationId);
+      isReadingQr = false;
     }
     catch (error) {
       crashlytics().recordError(error);
-      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.");
+      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.", [
+        {
+          text: 'OK',
+          onPress: () => {isReadingQr = false}
+        }
+      ]);
       setQRShowLine(true);
     }
-
   };
 
   const animationDuration = 1500;
@@ -127,7 +134,8 @@ const PurchaseQrScanPage = () => {
       onPress={goBack} />);
   }
 
-  if (errorRead) {
+  if (invalidOperationError) {
+    isReadingQr = false;
     return (<ErrorPage
       buttonLabel="Aceptar"
       errorMsg="El QR que esta escaneando no es válido"

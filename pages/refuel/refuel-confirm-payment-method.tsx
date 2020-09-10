@@ -27,7 +27,8 @@ const RefuelConfirmPaymentMethodPage = () => {
     const navigation = useNavigation() as StackNavigationProp;
     const [refuelState, _] = useContext(RefuelContext);
     const { operationId, authorizationId, loading, error, executeRefuel } = useRefuel();
-    const [waitExecute, setWaiExecute] = useState(false);
+    const [waitExecute, setWaitExecute] = useState(false);
+
 
     useEffect(() => {
         if (operationId) {
@@ -51,7 +52,7 @@ const RefuelConfirmPaymentMethodPage = () => {
     };
 
     const goWaitVerifyDni = () => {
-        setWaiExecute(true);
+        setWaitExecute(true);
         executeRefuel();
     };
 

@@ -23,7 +23,6 @@ import useTermsConditions from '../../hooks/use-terms-conditions.hook';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 
-
 const Container = styled.View`
     background-color: white;
     height: 100%;
@@ -234,8 +233,6 @@ const RegisterEnterEmailPage = () => {
                                 <View style={{ marginTop: 20 }}>
                                     <TextButton label="Al crear su cuenta confirma estar de acuerdo con los términos de uso de FillSmart" onPress={() => setIsModalVisible(true)}></TextButton>
                                 </View>
-
-                                {/* <Text>{JSON.stringify(state)}</Text> */}
                             </View>
 
                             <Button label="Siguiente" onPress={handleSubmit(onSubmit)} style={{ marginTop: 20 }} loading={loading} />

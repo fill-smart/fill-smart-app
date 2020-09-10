@@ -1,104 +1,86 @@
 import React from 'react';
-
-import SplashPage from '../pages/splash';
-import Login from '../pages/login';
-import Home from '../pages/home/home';
-import WelcomePage from '../pages/welcome-page';
-import MercadoPago from '../pages/mercadopago/mercadopago';
-
-import RegisterDniPage from '../pages/register/register-dni-page';
-import RegisterDniScanPage from '../pages/register/register-dni-scan-page';
-import RegisterDniScanConfirmPage from '../pages/register/register-dni-scan-confirm-page';
-import RegisterDniData from '../pages/register/register-dni-data';
-import RegisterSendCodePage from '../pages/register/register-send-code-page';
-import RegisterEnterCodePage from '../pages/register/register-enter-code-page';
-import RegisterEnterEmailPage from '../pages/register/register-enter-email-page';
-import RegisterActivateAccountPage from '../pages/register/register-activate-account-page';
-import RegisterAccountActivatedPage from '../pages/register/register-account-activated-page';
-import RegisterCreateUserPage from '../pages/register/register-create-user';
-import RegisterRegistrationCompletePage from '../pages/register/register-registration-complete';
-import RegisterCamera from '../pages/register/register-camera';
-
-import LoginRecoverPasswordPage from '../pages/recover-password/login-recover-password';
-import LoginEnterNewPasswordPage from '../pages/recover-password/login-enter-new-password';
-import LoginPasswordResetPage from '../pages/recover-password/login-password-reset';
-
-import BiometricDataRegisterPage from '../pages/biometric-register/biometric-data-register';
-import BiometricDataRegisterFingerprintPage from '../pages/biometric-register/biometric-data-register-fingerprint';
-import BiometricDataRegisterFacePage from '../pages/biometric-register/biometric-data-register-face';
-import BiometricDataRegistrationCompletePage from '../pages/biometric-register/biometric-data-registration-complete';
-
-import Profile from '../pages/profile/profile';
-import ProfileCamera from '../pages/profile/profile-camera';
-import MyAccount from '../pages/account-movements/my-account';
-import MovementListPage from '../pages/account-movements/movement-list';
+import { Dimensions, TouchableWithoutFeedback, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+import HamburguerMenuIcon from '../assets/icons/ic_hamburguer_menu.svg';
+import BackButton from '../components/go-back.component';
+import SideMenu from '../components/side-menu.component';
+import Toolbar from '../components/toolbar.component';
 import MovementDetailPage from '../pages/account-movements/movement-detail';
-
-import PurchaseFuel from '../pages/purchase-fuel/purchase-fuel';
-import PurchasePaymentMethod from '../pages/purchase-fuel/purchase-payment-method';
-import PurchaseConfirm from '../pages/purchase-fuel/purchase-confirm';
-import PurchaseResult from '../pages/purchase-fuel/purchase-result';
-import PurchasePayment from '../pages/purchase-fuel/purchase-payment';
-import PurchasePaymentMP from '../pages/purchase-fuel/purchase-payment-mp';
-
-import RefuelQrScan from '../pages/refuel/refuel-qr-scan';
-import RefuelFuelSelectionPage from '../pages/refuel/refuel-fuel-selection';
-import RefuelConfirmPaymentMethodPage from '../pages/refuel/refuel-confirm-payment-method';
-import RefuelConfirmQrPage from '../pages/refuel/refuel-confirm-qr';
-import RefuelOperationCompletePage from '../pages/refuel/refuel-operation-complete';
-import RefuelDniRejected from '../pages/refuel/refuel-dni-rejected';
-import RefueleVerifyDni from '../pages/refuel/refuel-verify-dni';
-
-import WithdrawalFuelSelectionPage from '../pages/withdrawal/withdrawal-fuel-selection';
-import WithdrawalConfirmPaymentMethodPage from '../pages/withdrawal/withdrawal-confirm-payment-method';
-import WithdrawalOperationCompletePage from '../pages/withdrawal/withdrawal-operation-complete';
-import WithdrawalAmountSelectionPage from '../pages/withdrawal/withdrawal-amount-selection';
-import WithdrawalQrScanPage from '../pages/withdrawal/withdrawal-qr-scan';
-import WithdrawalVerifyDniPage from '../pages/withdrawal/withdrawal-verify-dni';
-import WithdrawalDniRejected from '../pages/withdrawal/withdrawal-dni-rejected';
-
-import PaymentInStoreConfirmQrPage from '../pages/payment-in-store/payment-in-store-confirm-qr';
-import PaymentInStoreFuelSelectionPage from '../pages/payment-in-store/payment-in-store-fuel-selection';
+import MovementListPage from '../pages/account-movements/movement-list';
+import MyAccount from '../pages/account-movements/my-account';
+import BiometricDataRegisterPage from '../pages/biometric-register/biometric-data-register';
+import BiometricDataRegisterFacePage from '../pages/biometric-register/biometric-data-register-face';
+import BiometricDataRegisterFingerprintPage from '../pages/biometric-register/biometric-data-register-fingerprint';
+import BiometricDataRegistrationCompletePage from '../pages/biometric-register/biometric-data-registration-complete';
+import ExchangeConfirmSelectionPage from '../pages/exchange/exchange-confirm-selection';
+import ExchangeOperationCompletePage from '../pages/exchange/exchange-operation-complete';
+import ExchangeWalletSelectionPage from '../pages/exchange/exchange-wallet-selection';
+import HelpPage from '../pages/help/help';
+import Home from '../pages/home/home';
+import Login from '../pages/login';
+import MercadoPago from '../pages/mercadopago/mercadopago';
+import NoConnectionPage from '../pages/no-connection';
+import NotificationDetailPage from '../pages/notifications/notification-detail';
+import NotificationsPage from '../pages/notifications/notifications';
+import PaymentInStoreAmountSelectionPage from '../pages/payment-in-store/payment-in-store-amount-selection';
 import PaymentInStoreConfirmPaymentMethodPage from '../pages/payment-in-store/payment-in-store-confirm-payment-method';
+import PaymentInStoreDniRejected from '../pages/payment-in-store/payment-in-store-dni-rejected';
+import PaymentInStoreFuelSelectionPage from '../pages/payment-in-store/payment-in-store-fuel-selection';
 import PaymentInStoreOperationCompletePage from '../pages/payment-in-store/payment-in-store-operation-complete';
 import PaymentInStoreQrScan from '../pages/payment-in-store/payment-in-store-qr-scan';
-import PaymentInStoreAmountSelectionPage from '../pages/payment-in-store/payment-in-store-amount-selection';
-import PaymentInStoreDniRejected from '../pages/payment-in-store/payment-in-store-dni-rejected';
 import PaymentInStoreVerifyDni from '../pages/payment-in-store/payment-in-store-verify-dni';
-
-import ExchangeConfirmSelectionPage from '../pages/exchange/exchange-confirm-selection';
-import ExchangeWalletSelectionPage from '../pages/exchange/exchange-wallet-selection';
-import ExchangeOperationCompletePage from '../pages/exchange/exchange-operation-complete';
-
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { Dimensions, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
-import SideMenu from '../components/side-menu.component';
-import {
-  NavigationNavigator,
-  createAppContainer,
-  createSwitchNavigator,
-} from 'react-navigation';
-import THEME_COLORS from '../styles/theme.styles';
-import Toolbar from '../components/toolbar.component';
-import HamburguerMenuIcon from '../assets/icons/ic_hamburguer_menu.svg';
-import RegisterUserData from '../pages/register/register-user-data';
-import PurchaseQrScanPage from '../pages/purchase-fuel/purchase-qr-scan';
-import PurchaseVerifyDni from '../pages/purchase-fuel/purchase-verify-dni';
+import ChangePasswordPage from '../pages/profile/change-password';
+import ChangePasswordCompletePage from '../pages/profile/change-password-complete';
+import ProfilePage from '../pages/profile/profile';
+import ProfileCameraPage from '../pages/profile/profile-camera';
+import ProfileEditDataPage from '../pages/profile/profile-edit-data';
+import PurchaseConfirm from '../pages/purchase-fuel/purchase-confirm';
 import PurchaseDniRejected from '../pages/purchase-fuel/purchase-dni-rejected';
-import NotificationsPage from '../pages/notifications/notifications';
-import NoConnectionPage from '../pages/no-connection';
-import UpdateApp from '../pages/update-app';
-import ProfileEditData from '../pages/profile/profile-edit-data';
-import BackButton from '../components/go-back.component';
-import NotificationDetailPage from '../pages/notifications/notification-detail';
-import HelpPage from '../pages/help/help';
-import WithdrawalTypeSelectionPage from '../pages/withdrawal/withdrawal-type-selection';
-import WithdrawalTransferAccountSelectionPage from '../pages/withdrawal/withdrawal-transfer-account-selection';
-import TransferSearchUserPage from '../pages/transfer/transfer-search-user';
+import PurchaseFuel from '../pages/purchase-fuel/purchase-fuel';
+import PurchasePayment from '../pages/purchase-fuel/purchase-payment';
+import PurchasePaymentMethod from '../pages/purchase-fuel/purchase-payment-method';
+import PurchasePaymentMP from '../pages/purchase-fuel/purchase-payment-mp';
+import PurchaseQrScanPage from '../pages/purchase-fuel/purchase-qr-scan';
+import PurchaseResult from '../pages/purchase-fuel/purchase-result';
+import PurchaseVerifyDni from '../pages/purchase-fuel/purchase-verify-dni';
+import LoginEnterNewPasswordPage from '../pages/recover-password/login-enter-new-password';
+import LoginPasswordResetPage from '../pages/recover-password/login-password-reset';
+import LoginRecoverPasswordPage from '../pages/recover-password/login-recover-password';
+import RefuelConfirmPaymentMethodPage from '../pages/refuel/refuel-confirm-payment-method';
+import RefuelConfirmQrPage from '../pages/refuel/refuel-confirm-qr';
+import RefuelDniRejected from '../pages/refuel/refuel-dni-rejected';
+import RefuelFuelSelectionPage from '../pages/refuel/refuel-fuel-selection';
+import RefuelOperationCompletePage from '../pages/refuel/refuel-operation-complete';
+import RefuelQrScan from '../pages/refuel/refuel-qr-scan';
+import RefueleVerifyDni from '../pages/refuel/refuel-verify-dni';
+import RegisterCamera from '../pages/register/register-camera';
+import RegisterDniPage from '../pages/register/register-dni-page';
+import RegisterDniScanConfirmPage from '../pages/register/register-dni-scan-confirm-page';
+import RegisterDniScanPage from '../pages/register/register-dni-scan-page';
+import RegisterEnterCodePage from '../pages/register/register-enter-code-page';
+import RegisterEnterEmailPage from '../pages/register/register-enter-email-page';
+import RegisterRegistrationCompletePage from '../pages/register/register-registration-complete';
+import RegisterSendCodePage from '../pages/register/register-send-code-page';
+import RegisterUserData from '../pages/register/register-user-data';
+import SplashPage from '../pages/splash';
 import TransferAmountSelectionPage from '../pages/transfer/transfer-amount-selection';
 import TransferConfirmPage from '../pages/transfer/transfer-confirm';
 import TransferOperationCompletePage from '../pages/transfer/transfer-operation-complete';
+import TransferSearchUserPage from '../pages/transfer/transfer-search-user';
+import UpdateApp from '../pages/update-app';
+import WelcomePage from '../pages/welcome-page';
+import WithdrawalAmountSelectionPage from '../pages/withdrawal/withdrawal-amount-selection';
+import WithdrawalConfirmPaymentMethodPage from '../pages/withdrawal/withdrawal-confirm-payment-method';
+import WithdrawalDniRejected from '../pages/withdrawal/withdrawal-dni-rejected';
+import WithdrawalFuelSelectionPage from '../pages/withdrawal/withdrawal-fuel-selection';
+import WithdrawalOperationCompletePage from '../pages/withdrawal/withdrawal-operation-complete';
+import WithdrawalQrScanPage from '../pages/withdrawal/withdrawal-qr-scan';
+import WithdrawalTransferAccountSelectionPage from '../pages/withdrawal/withdrawal-transfer-account-selection';
+import WithdrawalTypeSelectionPage from '../pages/withdrawal/withdrawal-type-selection';
+import WithdrawalVerifyDniPage from '../pages/withdrawal/withdrawal-verify-dni';
+import THEME_COLORS from '../styles/theme.styles';
 
 
 export const getRoutePath = (
@@ -174,9 +156,15 @@ export const RECOVER_PASSWORD_ROUTES = {
 };
 
 export const PROFILE_ROUTES = {
-  Profile: { screen: Profile },
-  ProfileEditData: { screen: ProfileEditData },
-  ProfileCamera: { screen: ProfileCamera },
+  Profile: { screen: ProfilePage },
+  ProfileEditData: { screen: ProfileEditDataPage },
+  ProfileCamera: { screen: ProfileCameraPage },
+  ChangePassword: { 
+    screen: ChangePasswordPage,
+  },
+  ChangePasswordComplete: { 
+    screen: ChangePasswordCompletePage,
+  },
 };
 
 //My account navogation flow
@@ -220,7 +208,7 @@ export const REFUEL_ROUTES = {
 export const WITHDRAWAL_ROUTES = {
   WithdrawalTypeSelection: { screen: WithdrawalTypeSelectionPage },
   WithdrawalTransferAccountSelection: { screen: WithdrawalTransferAccountSelectionPage },
-  ProfileEditData: { screen: ProfileEditData },
+  ProfileEditData: { screen: ProfileEditDataPage },
   WithdrawalQrScan: { screen: WithdrawalQrScanPage },
   WithdrawalAmountSelection: { screen: WithdrawalAmountSelectionPage },
   WithdrawalFuelSelection: { screen: WithdrawalFuelSelectionPage },

@@ -55,7 +55,7 @@ const MovementListFooter = ({ onPress }: { onPress?: (event: GestureResponderEve
   return (
     <React.Fragment>
       <MovementListSeparator />
-      <TouchableOpacity onPress={onPress ?? undefined}>
+      <TouchableOpacity onPress={onPress}>
         <FooterContainer>
           <FooterText>Ver todos los movimientos   </FooterText>
           <ArrowSimpleRightIcon />
@@ -65,25 +65,20 @@ const MovementListFooter = ({ onPress }: { onPress?: (event: GestureResponderEve
   );
 };
 
-
-let latestOp: IOperation[] | undefined = [];
-
-const MovementList = ({
-  onRefetchChange,
+const HomeMovementList = ({
+  onFooterPress,
+  onRefetch,
 }: {
-  onRefetchChange?: (refetch: (variables?: Record<string, any> | undefined) => Promise<ApolloQueryResult<IOperationsResult>>) => void,
+  onFooterPress?: (event: GestureResponderEvent) => void,
+  onRefetch?: (refetch: (variables?: Record<string, any> | undefined) => Promise<ApolloQueryResult<IOperationsResult>>) => void,
 }) => {
 
-  const [operationList, setOperationList] = useState<Array<IOperation>>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loadingPage, setLoadingPage] = useState<boolean>(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [state] = useContext(SecurityContext);
 
   const listCriteria: QueryCriteria = {
     pagination: {
-      current: currentPage,
-      pageSize: 15
+      current: 1,
+      pageSize: 6
     },
     sort: [{
       property: "stamp",
@@ -153,57 +148,13 @@ const MovementList = ({
 
   const { operations, loading, error, refetch } = useOperations(listCriteria);
 
-  const onRefresh = () => {
-    refetch({
-      filter: JSON.stringify(listCriteria.filter),
-      max: listCriteria.pagination.pageSize,
-      skip: 0,
-      sort: JSON.stringify(listCriteria.sort),
-    })
-    setRefreshing(true);
-  };
-
   useEffect(() => {
-    let timer: any;
-    if (refreshing) {
-      timer = setTimeout(() => setRefreshing(false), 4000);
-    }
-    return () => { timer ?? clearTimeout(timer) };
-  }, [refreshing])
-
-  useEffect(() => {
-    if (onRefetchChange) {
-      onRefetchChange(refetch);
+    if (onRefetch) {
+      onRefetch(refetch);
     }
   }, [refetch]);
 
-  useEffect(() => {
-    if (operations) {
-      if (refreshing) {
-        setCurrentPage(1);
-        setOperationList([...operations!]);
-        setRefreshing(false);
-      } else {
-        setOperationList([...operationList, ...operations!]);
-      }
-    }
-  }, [operations])
-
-  useEffect(() => {
-    latestOp = operations;
-    if (operations) {
-      setLoadingPage(false);
-    }
-  }, [operationList])
-
-  const changeCurrentPage = () => {
-    if (!loadingPage) {
-      setCurrentPage(currentPage + 1);
-      setLoadingPage(true);
-    }
-  }
-
-  if (loadingPage && operationList.length === 0) {
+  if (loading) {
     return (
       <Container style={{ height: 100 }}>
         <Loader height={40} width={40} />
@@ -222,28 +173,24 @@ const MovementList = ({
   }
 
   return (
-    <Container style={{ borderRadius: 0 }}>
+    <Container style={{ borderRadius: 10 }}>
       {
-        operationList && operationList.length > 0 ?
+        operations && operations.length > 0 ?
           <FlatList
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            data={operationList} keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item, index }) => <MovementListItem item={item} isTouchable={true} />}
+            data={operations} keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item, index }) => <MovementListItem item={item} isTouchable={false} />}
             ItemSeparatorComponent={MovementListSeparator}
-            ListFooterComponent={loadingPage ?
-                <ActivityIndicator animating size="large" />
-                : null}
+            ListFooterComponent={<MovementListFooter onPress={onFooterPress ?? undefined} />}
             showsVerticalScrollIndicator={false}
-            onEndReached={(latestOp?.length === 0) ? null : changeCurrentPage}
-            onEndReachedThreshold={0.1}
+            scrollEnabled={false}
           />
           :
           <ErrorLabel>
-            No tienes operaciones realizadas.
+            No tenes operaciones realizadas.
           </ErrorLabel>
       }
     </Container>
   );
 };
 
-export default MovementList;
+export default HomeMovementList;

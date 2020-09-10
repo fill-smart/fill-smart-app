@@ -1,48 +1,45 @@
-import React, { useState, useEffect, useMemo, useCallback, useContext } from 'react';
+import crashlytics from '@react-native-firebase/crashlytics';
+import { ApolloQueryResult } from 'apollo-boost';
+import React, { useContext, useState } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
+  Alert, Dimensions,
+
+
+
   GestureResponderEvent,
-  ActivityIndicator,
-  RefreshControl,
-  Alert,
+
+  RefreshControl, ScrollView, Text,
+
+
+
+  TouchableOpacity, View
 } from 'react-native';
-import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
 import { useNavigation } from 'react-navigation-hooks';
-import Pump from '../../assets/icons/ic_pump_primary.svg';
-import PromotionsIcon from '../../assets/icons/ic_promotions.svg';
+import styled from 'styled-components/native';
+import ExchangeWalletIcon from '../../assets/icons/ic_exchange_wallets_white.svg';
 import FuelPriceIcon from '../../assets/icons/ic_fuel_price.svg';
-import PlusIcon from '../../assets/icons/ic_plus.svg';
 import MovementsIcon from '../../assets/icons/ic_movements.svg';
+import PayInStoreIcon from '../../assets/icons/ic_pay_in_store_white.svg';
+import PlusIcon from '../../assets/icons/ic_plus.svg';
 import PumpBuyIcon from '../../assets/icons/ic_pump_buy_white.svg';
 import PumpChargeIcon from '../../assets/icons/ic_pump_charge_white.svg';
-import ExchangeWalletIcon from '../../assets/icons/ic_exchange_wallets_white.svg';
-import TransferLitresIcon from '../../assets/icons/ic_transfer_litres_white.svg';
-import PayInStoreIcon from '../../assets/icons/ic_pay_in_store_white.svg';
+import Pump from '../../assets/icons/ic_pump_primary.svg';
 import TopupIcon from '../../assets/icons/ic_topup_white.svg';
-import Offer1 from '../../assets/icons/offers_1.svg';
-import Offer2 from '../../assets/icons/offers_2.svg';
+import TransferLitresIcon from '../../assets/icons/ic_transfer_litres_white.svg';
 import IconSeparator from '../../components/icon-separator.component';
-import styled from 'styled-components/native';
-import THEME_COLORS from '../../styles/theme.styles';
-import MyAccountSummary from '../../components/my-account-summary.component';
-import { getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
-import FuelPricesVariation from './fuel-price-variations';
-import WalletCarousel from '../../components/wallet-carousel.component';
 import MovementList from '../../components/movement-list.component';
-import useWallets from '../../hooks/use-wallets';
-import useOperations, { IOperationsResult } from '../../hooks/use-operations';
-import useFuelPriceVariations from '../../hooks/use-fuel-price-variations.hook';
+import MyAccountSummary from '../../components/my-account-summary.component';
+import WalletCarousel from '../../components/wallet-carousel.component';
 import { ConnectionContext } from '../../contexts/connection-context';
 import { SecurityContext } from '../../contexts/security.context';
-import crashlytics from '@react-native-firebase/crashlytics';
-import { QueryCriteria, FilterTypesEnum } from '../../filters';
-import { ApolloQueryResult } from 'apollo-boost';
+import useFuelPriceVariations from '../../hooks/use-fuel-price-variations.hook';
+import { IOperationsResult } from '../../hooks/use-operations';
+import useWallets from '../../hooks/use-wallets';
+import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
+import { APP_ROUTES, getRoutePath, HOME_ROUTE } from '../../routing/routes';
+import THEME_COLORS from '../../styles/theme.styles';
+import FuelPricesVariation from './fuel-price-variations';
+import HomeMovementList from '../../components/home-movement-list.component';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const cardWidth = (screenWidth - 15 * 5) / 2;
@@ -345,24 +342,10 @@ const Home = () => {
             <IconSeparator text="Movimientos" icon={<MovementsIcon />} />
           </SeparatorView>
 
-          <MovementList
-            onHomeScreen={true}
+          <HomeMovementList
             onFooterPress={goMyAccount}
-            isItemTouchable={false}
-            onRefetchChange={(refetch) => {operationsRefetch = refetch}}
+            onRefetch={(refetch) => {operationsRefetch = refetch}}
           />
-
-          {/* <SeparatorView>
-            <IconSeparator text="Promociones" icon={<PromotionsIcon />} />
-          </SeparatorView>
-
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={true}>
-            <Offer1 />
-            <Offer2 />
-          </ScrollView> */}
 
           <SeparatorView>
             <IconSeparator

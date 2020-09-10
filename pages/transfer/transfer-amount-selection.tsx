@@ -4,10 +4,7 @@ import { ScrollView, Modal, View, StyleSheet, Text } from 'react-native';
 import THEME_COLORS from '../../styles/theme.styles';
 import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
 import Button from '../../components/button.component';
-import PurchaseCalculator from '../../components/purchase-calculator.component';
-import DropDown from '../../components/drop-down.component';
 import { getRoutePath, HOME_ROUTE } from '../../routing/routes';
-import { FuelTypeWithCurrentPriceRecord } from '../../hooks/use-fuel-types-with-current-price.hook';
 import styled from 'styled-components/native';
 import TransferCalculator from './transfer-calculator.component';
 import { TRANSFER_ACTIONS, TransferContext } from '../../contexts/transfer.context';
@@ -79,7 +76,7 @@ const TransferAmountSelectionPage = () => {
   };
 
   useEffect(() => {
-    if (litres > 0 && selectedFuelType) {
+    if (litres > 0 && selectedFuelType && selectedFuelType.availableLitres >= litres) {
       setIsContinueButtonEnabled(true);
       dispatch({
         type: TRANSFER_ACTIONS.SET_LITRES,

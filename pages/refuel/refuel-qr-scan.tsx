@@ -36,16 +36,13 @@ const TitleContainer = styled.View`
   z-index:999;
 `;
 
-
+let isReadingQr: boolean = false;
 
 const RefuelQrScan = () => {
   const navigation = useNavigation();
-  const [errorRead, setErrorRead] = useState(false);
+  const [invalidOperationError, setInvalidOperationError] = useState(false);
   const [scannerMargin, setScannerMargin] = useState(new Animated.Value(-100))
   const widthQrWindow = Dimensions.get('window').width / 2 + Dimensions.get('window').width / 6;
-
-
-
 
   //For tests
   // setTimeout(() => {
@@ -56,7 +53,10 @@ const RefuelQrScan = () => {
   // }, 3000);
 
   const onRead = ({ type, data }: { type: string, data: string }) => {
-    console.log("ON READ Executed", type, data);
+    if (isReadingQr) {
+      return;
+    }
+    isReadingQr = true;
     try {
       if (type !== "QR_CODE" && type !== "qr" && type != "org.iso.QRCode") {
         return
@@ -65,7 +65,7 @@ const RefuelQrScan = () => {
       const qrData: QRModel = JSON.parse(data);
 
       if (qrData.operationType !== "refuel") {
-        setErrorRead(true);
+        setInvalidOperationError(true);
         return;
       }
 
@@ -73,10 +73,16 @@ const RefuelQrScan = () => {
         getRoutePath(HOME_ROUTE.RefuelConfirmQr, HOME_ROUTE),
         { pumpId: qrData.pumpId },
       );
+      isReadingQr = false;
     }
     catch (error) {
       crashlytics().recordError(error);
-      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.");
+      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.", [
+        {
+          text: 'OK',
+          onPress: () => {isReadingQr = false}
+        }
+      ]);
     }
   };
 
@@ -107,7 +113,8 @@ const RefuelQrScan = () => {
     animateToTop()
   }, []);
 
-  if (errorRead) {
+  if (invalidOperationError) {
+    isReadingQr = false;
     return (<ErrorPage
       buttonLabel="Aceptar"
       errorMsg="El QR que esta escaneando no es válido"

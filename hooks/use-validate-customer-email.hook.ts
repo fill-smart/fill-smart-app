@@ -1,5 +1,6 @@
 import { gql } from 'apollo-boost';
 import { apolloClient } from '../graphql/apollo-client';
+import { AccountStatusEnum } from '../models/customer.model';
 
 export interface ICustomerEmailValidation {
   customers: {
@@ -31,11 +32,18 @@ export const emailExists = async (email: string) => {
   const result = await apolloClient.query<ICustomerEmailValidation>({
     query: CUSTOMER_VALIDATE_EMAIL_QUERY,
     variables: {
-      filter: JSON.stringify({
+      filter: JSON.stringify({ and: [
+      {
         type: 'eq',
         property: 'user.username',
         value: email,
-      }),
+      },
+      {
+        type: 'eq',
+        property: 'status',
+        value: AccountStatusEnum.Active,
+      }
+      ]}),
     },
     fetchPolicy: "no-cache"
   });

@@ -18,6 +18,7 @@ import Loader from '../../components/loader.component';
 import { WithdrawalType } from '../../models/withdrawal-enums';
 import useWithdrawalByTransfer from '../../hooks/use-withdrawal-by-transfer.hook';
 
+
 const Container = styled.View`
     padding: 25px;
     flex: 1;

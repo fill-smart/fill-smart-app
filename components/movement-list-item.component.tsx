@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text, GestureResponderEvent, TouchableOpacity } from 'react-native';
 import OperationType, { OperationStyles } from '../models/operation-type.enum';
 import THEME_COLORS from '../styles/theme.styles';
@@ -7,6 +7,7 @@ import { DateUtils } from '@silentium-apps/fill-smart-common';
 import { getRoutePath, MY_ACCOUNT_ROUTES } from '../routing/routes';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { IOperation } from '../hooks/use-operations';
+import { SecurityContext } from '../contexts/security.context';
 
 const styles = StyleSheet.create({
     container: {
@@ -85,13 +86,26 @@ const MovementListItem = ({
     const goMovementDetail = () => {
         navigation.navigate(getRoutePath(MY_ACCOUNT_ROUTES.MovementDetail, MY_ACCOUNT_ROUTES), { item: item });
     };
+    const [state] = useContext(SecurityContext);
 
     const type = item.operationTypeId;
+    const isPending = item.transferWithdrawalAuthorized === null && item.transferWithdrawalId !== null;
     const title = item.operationTypeName === "Canje de Combustible" ? item.exchangeSourceFuelType + " a " + item.fuelTypeName : item.fuelTypeName;
     const date = DateUtils.format(item.stamp, "DD/MM/YYYY");
     const subtitle = item.operationTypeName;
     const litres = item.litres;
     const moneyEquivalency = litres * item.fuelPrice;
+
+    const PendingBadgeRender = () => {
+        if (isPending) {
+            return (
+                <View style={styles.pendingBadge}>
+                    <Text style={styles.paddingBadgeText}>Pendiente</Text>
+                </View>
+            )
+        };
+        return null;
+    };
 
     const IconRender = () => {
         const backgroundColor = OperationStyles.get(type.toString())?.iconBackgroundColor;
@@ -147,16 +161,22 @@ const MovementListItem = ({
                     minimumFractionDigits: 0,
                 }) + " lt";
             case OperationType.Transfer:
-                    formattedValue = "-" + litres.toLocaleString("es-ar", {
-                        maximumFractionDigits: 2,
-                        minimumFractionDigits: 0,
-                    }) + " lt";
+                formattedValue = state?.user?.id == item.userId ?
+                "-" + litres.toLocaleString("es-ar", {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                }) + " lt"
+                :
+                "+" + litres.toLocaleString("es-ar", {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                }) + " lt";
                 break;
             default:
                 break;
         }
         return (
-            <Text style={[styles.value, { color: textColor }]}>{formattedValue}</Text>
+            <Text style={[styles.value, { color: state?.user?.id == item.userId ? textColor : THEME_COLORS.SUCCESS }]}>{formattedValue}</Text>
         )
     };
 
@@ -169,6 +189,7 @@ const MovementListItem = ({
                         <Text numberOfLines={1} style={styles.title}>{title}</Text>
                         <SubtitleLabel />
                     </View>
+                    <PendingBadgeRender/>
                 </View>
                 <View style={styles.valueDateContainer}>
                     <ValueLabel />

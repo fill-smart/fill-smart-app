@@ -18,11 +18,13 @@ const CUSTOMER_SEARCH_QUERY = gql`
 `;
 
 const useCustomerSearch = () => {
-    const [execute, { data, loading, error }] = useLazyQuery<ICustomerSearch>(CUSTOMER_SEARCH_QUERY);
-
+    const [execute, { data, loading, error }] = useLazyQuery<ICustomerSearch>(
+        CUSTOMER_SEARCH_QUERY,
+        {fetchPolicy: "no-cache"}
+    );
     const searchCustomers = (search: string) => {
         execute({
-            variables: { search },
+            variables: { search }
         })
     }
     return { searchCustomers, data, loading, error };

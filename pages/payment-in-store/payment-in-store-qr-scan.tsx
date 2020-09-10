@@ -42,9 +42,11 @@ const Container = styled.View`
     align-items: center;
 `;
 
+let isReadingQr: boolean = false;
+
 const PaymentInStoreQrScan = () => {
   const navigation = useNavigation() as StackNavigationProp;
-  const [errorRead, setErrorRead] = useState(false);
+  const [invalidOperationError, setInvalidOperationError] = useState(false);
   const [scannerMargin, setScannerMargin] = useState(new Animated.Value(-100))
   const widthQrWindow = Dimensions.get('window').width / 2 + Dimensions.get('window').width / 6;
 
@@ -57,14 +59,18 @@ const PaymentInStoreQrScan = () => {
   // }, 3000);
 
   const onRead = ({ type, data }: { type: string, data: string }) => {
+    if (isReadingQr) {
+      return;
+    }
+    isReadingQr = true;
     try {
       if (type !== "QR_CODE" && type !== "qr" && type != "org.iso.QRCode") {
-        return
+        return;
       }
       const qrData: QRModel = JSON.parse(data);
 
       if (qrData.operationType !== "shop_purchase") {
-        setErrorRead(true);
+        setInvalidOperationError(true);
         return;
       }
 
@@ -72,10 +78,16 @@ const PaymentInStoreQrScan = () => {
         getRoutePath(HOME_ROUTE.PaymentInStoreAmountSelection, HOME_ROUTE),
         { gasStationId: qrData.gasStationId }
       );
+      isReadingQr = false;
     }
     catch (error) {
       crashlytics().recordError(error);
-      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.");
+      Alert.alert("Error al leer código QR", "Ocurrió un error al leer el código QR. Intente nuevamente.", [
+        {
+          text: 'OK',
+          onPress: () => {isReadingQr = false}
+        }
+      ]);
     }
   };
 
@@ -105,7 +117,8 @@ const PaymentInStoreQrScan = () => {
     animateToTop()
   }, []);
 
-  if (errorRead) {
+  if (invalidOperationError) {
+    isReadingQr = false;
     return (<ErrorPage
       buttonLabel="Aceptar"
       errorMsg="El QR que esta escaneando no es válido"

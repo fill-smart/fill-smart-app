@@ -6,7 +6,7 @@ import { defNavigationOptions } from '../../routing/routes';
 const MercadoPago = () => {
     return (
         <WebView
-            
+            androidHardwareAccelerationDisabled={true}
             source={{ uri: 'https://www.silentiumapps.com' }}
             style={{ marginTop: 20 }}
         />

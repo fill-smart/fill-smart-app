@@ -174,6 +174,9 @@ const OptionItems = ({
                     <View style={{flex: 1, paddingLeft: 12}}>
                       <Text style={styles.dropdownOptionText}>{item.fuelType.name}</Text>
                     </View>
+                    <Text style={styles.dropdownOptionValue}>
+                      {item.availableLitres.toLocaleString("es-ar", {maximumFractionDigits: 2})} lt
+                    </Text>
                   </View>
                   <View style={styles.dropDownOptionSeparator} />
                 </View>

@@ -26,8 +26,9 @@ export interface IOperation {
   userId: number;
   targetCustomerFirstName: string;
   targetCustomerLastName: string;
-  transferWithdrawalId: number;
-  transferWithdrawalAuthorized: boolean;
+  targetUserId: number;
+  transferWithdrawalId: number | null;
+  transferWithdrawalAuthorized: boolean | null;
 }
 
 export interface IOperationsResult {
@@ -68,6 +69,7 @@ const LIST_OPERATIONS_QUERY = gql`
         exchangeSourceFuelType
         targetCustomerFirstName
         targetCustomerLastName
+        targetUserId
         userId
         transferWithdrawalId
         transferWithdrawalAuthorized

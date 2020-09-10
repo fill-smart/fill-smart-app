@@ -41,6 +41,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Necesitamos acceder a tus música.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Necesitamos acceder a tu cámara para leer códigos QR y tomar fotos para la subida de archivos a la aplicación.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -50,7 +52,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Necesitamos chequear tu ubicación para saber si la app esta disponible en tu zona.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Necesitamos permisos para guardar en tu teléfono las fotos que tomes en y subas a la aplicación.</string>
+	<string>Necesitamos permiso para guardar fotos en tu galería.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Necesitamos acceder a tus fotos para que puedas subir archivos.</string>
 	<key>UIAppFonts</key>

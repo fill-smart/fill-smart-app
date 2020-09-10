@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import OperationType, { OperationStyles } from '../models/operation-type.enum';
 import THEME_COLORS from '../styles/theme.styles';
@@ -7,6 +7,7 @@ import { DateUtils } from '@silentium-apps/fill-smart-common';
 import moment from 'moment';
 import useParameters from '../hooks/use-parameters.hook';
 import Loader from './loader.component';
+import { SecurityContext } from '../contexts/security.context';
 
 
 const styles = StyleSheet.create({
@@ -76,6 +77,24 @@ const styles = StyleSheet.create({
         fontFamily: "LibreFranklin-Regular",
         fontSize: 16,
     },
+    pendingBadge: {
+        borderStyle: "solid",
+        borderColor: THEME_COLORS.WARNING_STRONG,
+        borderRadius: 10,
+        borderWidth: 1,
+        marginLeft: 10,
+        marginRight: 10,
+        width: 100,
+        height: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "flex-start",
+    },
+    paddingBadgeText: {
+        color: THEME_COLORS.WARNING_STRONG,
+        fontFamily: "LibreFranklin-Light",
+        fontSize: 12,
+    },
 });
 
 const MovementDetailSeparator = () => {
@@ -89,6 +108,7 @@ const MovementDetail = ({
 }: {
     item: IOperation
 }) => {
+    const [state] = useContext(SecurityContext);
     const { gracePeriod, exchangeGracePeriod, loading } = useParameters();
     const type = item.operationTypeId;
     const title = item.operationTypeName === "Canje de Combustible" ? item.exchangeSourceFuelType + " a " + item.fuelTypeName : item.fuelTypeName;
@@ -100,9 +120,22 @@ const MovementDetail = ({
     const sublocation = item.pumpExternalId ? "Surtidor " + item.pumpExternalId : undefined;
     const total = litres * item.fuelPrice;
     const targetCustomer = item.targetCustomerFirstName + ' ' + item.targetCustomerLastName;
+    const sourceCustomer = item.customerFirstName + ' ' + item.customerLastName;
     const operation = type.toString() === OperationType.Refuel ? item.pumpExternalId.toString().padStart(4, "0") + "-" + item.id.toString().padStart(8, "0") : item.id.toString().padStart(8, "0");
     const availabilityDate = type.toString() === OperationType.Purchase ? moment(item.stamp).add(gracePeriod, "days")
         : type.toString() === OperationType.Exchange ? moment(item.stamp).add(exchangeGracePeriod, "days") : undefined;
+    const isPending = item.transferWithdrawalAuthorized === null && item.operationTypeName === "Retiro de Fondos";
+
+    const PendingBadgeRender = () => {
+        if (isPending) {
+            return (
+                <View style={styles.pendingBadge}>
+                    <Text style={styles.paddingBadgeText}>Pendiente</Text>
+                </View>
+            )
+        };
+        return null;
+    };
 
     const TotalRow = () => {
         if (type.toString() === OperationType.Withdrawal || type.toString() === OperationType.PaymentInStore || type.toString() === OperationType.Transfer) {
@@ -147,12 +180,21 @@ const MovementDetail = ({
         );
     };
 
-    const TargetCustomerRow = () => {
+    const TransferCustomerRow = () => {
         return ( type.toString() === OperationType.Transfer ?
+            state?.user?.id == item.userId ?
             <React.Fragment>
                 <View style={styles.row}>
                     <Text style={styles.rowText}>Transferido a</Text>
                     <Text style={styles.rowText}>{targetCustomer}</Text>
+                </View>
+                <MovementDetailSeparator />
+            </React.Fragment>
+            :
+            <React.Fragment>
+                <View style={styles.row}>
+                    <Text style={styles.rowText}>Recibido de</Text>
+                    <Text style={styles.rowText}>{sourceCustomer}</Text>
                 </View>
                 <MovementDetailSeparator />
             </React.Fragment>
@@ -259,11 +301,23 @@ const MovementDetail = ({
                     minimumFractionDigits: 2,
                 });
                 break;
+            case OperationType.Transfer:
+                formattedValue = state?.user?.id == item.userId ?
+                "-" + litres.toLocaleString("es-ar", {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                }) + " lt"
+                :
+                "+" + litres.toLocaleString("es-ar", {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                }) + " lt";
+                break;
             default:
                 break;
         }
         return (
-            <Text style={[styles.value, { color: textColor }]}>{formattedValue}</Text>
+            <Text style={[styles.value, { color: state?.user?.id == item.userId ? textColor : THEME_COLORS.SUCCESS }]}>{formattedValue}</Text>
         )
     };
 
@@ -280,6 +334,7 @@ const MovementDetail = ({
                         <TitleLabel />
                         <LeftSubtitleLabel />
                     </View>
+                    <PendingBadgeRender/>
                 </View>
                 <View style={styles.valueContainer}>
                     <ValueLabel />
@@ -289,7 +344,7 @@ const MovementDetail = ({
             <TotalRow />
             <DateRow />
             <TimeRow />
-            <TargetCustomerRow />
+            <TransferCustomerRow />
             <LocationRow />
             <OperationRow />
             <AvailabilityDateRow />

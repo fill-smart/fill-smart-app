@@ -38,7 +38,7 @@ const FormView = styled.View`
     justify-content: center;
 `;
 
-const ProfileEditData = () => {
+const ProfileEditDataPage = () => {
     const navigation = useNavigation();
     const profileHook = useProfile();
     const profile = useNavigationParam("profile") ?? profileHook.profile;
@@ -188,8 +188,8 @@ const ProfileEditData = () => {
     );
 };
 
-ProfileEditData.navigationOptions = {
+ProfileEditDataPage.navigationOptions = {
     title: '',
 };
 
-export default ProfileEditData;
+export default ProfileEditDataPage;

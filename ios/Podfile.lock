@@ -106,6 +106,8 @@ PODS:
     - RNPermissions
   - Permission-LocationWhenInUse (2.1.5):
     - RNPermissions
+  - Permission-MediaLibrary (2.1.5):
+    - RNPermissions
   - Permission-Notifications (2.1.5):
     - RNPermissions
   - Protobuf (3.11.3)
@@ -291,6 +293,8 @@ PODS:
   - react-native-image-editor (2.3.0):
     - React
     - React-RCTImage
+  - react-native-image-picker (2.3.3):
+    - React
   - react-native-netinfo (5.9.3):
     - React
   - react-native-safe-area-context (0.6.4):
@@ -375,6 +379,7 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
+  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary.podspec`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -393,6 +398,7 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
   - "react-native-image-editor (from `../node_modules/@react-native-community/image-editor`)"
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -459,6 +465,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
+  Permission-MediaLibrary:
+    :path: "../node_modules/react-native-permissions/ios/MediaLibrary.podspec"
   Permission-Notifications:
     :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
   RCTRequired:
@@ -491,6 +499,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-base64"
   react-native-image-editor:
     :path: "../node_modules/@react-native-community/image-editor"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -568,6 +578,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
   Permission-LocationWhenInUse: 16ecd20d82341c6b4336dfe5520c098bea85a2f5
+  Permission-MediaLibrary: c01c27f2e5c8a499fdc4add8fc7f1b97dcb3340e
   Permission-Notifications: 5ecb0f433b585c5621dc30b168772d60ae8574c2
   Protobuf: 0e94afe3b47cb11876eb6aee296638711a24bf75
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -585,6 +596,7 @@ SPEC CHECKSUMS:
   react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
   react-native-image-base64: acfe962aa79535d826a2668e66474e85a9ee468d
   react-native-image-editor: bd67912f38a8e7a895bf6eb8f445acdcefd8fd0c
+  react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
   react-native-netinfo: 19706b27df3a2b435171b3f1fad6085d6ac74324
   react-native-safe-area-context: 042dfc9d4db17196841df962ba9497f6e7a5bd02
   react-native-webview: d3cf75764f98fd433f1222f5a7ca8e355ada2a15
@@ -611,6 +623,6 @@ SPEC CHECKSUMS:
   RNSVG: 069864be08c9fe065a2cf7e63656a34c78653c99
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 2825a4d754b0ad73371c2c558369519a121fe363
+PODFILE CHECKSUM: 60beec14e82b0e7de70c86e75a753995ac24852d
 
 COCOAPODS: 1.9.3

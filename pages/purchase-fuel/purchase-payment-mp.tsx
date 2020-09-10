@@ -4,7 +4,10 @@ import WebView from 'react-native-webview';
 const PurchasePaymentMP = () => {
   return (
     <React.Fragment>
-      <WebView source={{uri: 'https://www.mercadopago.com'}}></WebView>
+      <WebView 
+        androidHardwareAccelerationDisabled={true}
+        source={{uri: 'https://www.mercadopago.com'}}
+      ></WebView>
     </React.Fragment>
   );
 };

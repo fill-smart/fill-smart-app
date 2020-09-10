@@ -56,9 +56,10 @@ const LottieWrapper = styled.View`
 export const Login = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const navigation = useNavigation() as StackNavigationProp;
-  const { loading, error, isAuthenticated, isActive, doLogin, doLogout } = useLogin();
+  const { error, isAuthenticated, isActive, doLogin, doLogout } = useLogin();
   const inputPwd: any = useRef();
 
   useEffect(() => {
@@ -83,6 +84,13 @@ export const Login = () => {
   }, [isAuthenticated]);
 
 
+  useEffect(() => {
+    if (error) {
+      setLoading(false);
+    }
+  }, [error]);
+
+
   const goToLoginRecoverPasswordPage = () => {
     navigation.navigate(
       getRoutePath(
@@ -104,6 +112,7 @@ export const Login = () => {
   const handleSubmit = () => {
     if (!isAuthenticated) {
       doLogin(username, password);
+      setLoading(true);
     }
   };
 
@@ -112,9 +121,6 @@ export const Login = () => {
   const color: { label: string; border: string, text: string } | undefined = hasError
     ? { label: THEME_COLORS.DANGER, border: THEME_COLORS.DANGER, text: THEME_COLORS.FONT_REGULAR }
     : { label: THEME_COLORS.PRIMARY, border: THEME_COLORS.PRIMARY, text: THEME_COLORS.FONT_REGULAR };
-  // if (loading) {
-  //   return <Loader />;
-  // }
 
   const screenHeight = Math.round(Dimensions.get('window').height) - 30;
 
@@ -162,18 +168,16 @@ export const Login = () => {
             <View style={{ marginBottom: 45 }}>
               <WarningText>
                 Al ingresar mal la contraseña 3 veces, su cuenta se bloqueará
-          </WarningText>
+              </WarningText>
 
               {error ?
                 <View style={{ marginTop: 20, alignContent: "center", justifyContent: "center", flexDirection: "row" }}>
                   <DangerText>
                     Usuario o contraseña incorrectos
-          </DangerText>
+                  </DangerText>
                 </View>
                 : null
               }
-
-
             </View>
 
             {/* <View style={{ marginBottom: 20 }}>

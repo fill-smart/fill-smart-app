@@ -4,15 +4,12 @@ import { ScrollView, Modal, View, StyleSheet, Text } from 'react-native';
 import THEME_COLORS from '../../styles/theme.styles';
 import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
 import Button from '../../components/button.component';
-import DropDown from '../../components/drop-down.component';
 import { getRoutePath, HOME_ROUTE } from '../../routing/routes';
 import ExchangeCalculator from './exchange-calculator.component';
-import { FuelTypeWithCurrentPriceRecord } from '../../hooks/use-fuel-types-with-current-price.hook';
 import styled from 'styled-components/native';
 import { ExchangeWalletContext, EXCHANGE_WALLET_ACTIONS } from '../../contexts/exchange-wallets.context';
 import ExchangeDropdown from './exchange-dropdown.component';
 import useWallets, { WalletRecord } from '../../hooks/use-wallets';
-import Loader from '../../components/loader.component';
 import moment from 'moment';
 import InfoIcon from '../../assets/icons/ic_info.svg'
 import useParameters from '../../hooks/use-parameters.hook';

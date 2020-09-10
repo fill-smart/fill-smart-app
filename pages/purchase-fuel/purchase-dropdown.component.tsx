@@ -8,15 +8,15 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import THEME_COLORS from '../styles/theme.styles';
-import ArrowDownIcon from '../assets/icons/ic_arrow_simple_down.svg';
-import ArrowDownWhiteIcon from '../assets/icons/ic_arrow_down_white.svg';
-import ArrowUpIcon from '../assets/icons/ic_arrow_simple_up.svg';
-import PumpGrayIcon from '../assets/icons/ic_pump_gray.svg';
-import PumpWhiteIcon from '../assets/icons/ic_pump_normal_white.svg';
+import THEME_COLORS from '../../styles/theme.styles';
+import ArrowDownIcon from '../../assets/icons/ic_arrow_simple_down.svg';
+import ArrowDownWhiteIcon from '../../assets/icons/ic_arrow_down_white.svg';
+import ArrowUpIcon from '../../assets/icons/ic_arrow_simple_up.svg';
+import PumpGrayIcon from '../../assets/icons/ic_pump_gray.svg';
+import PumpWhiteIcon from '../../assets/icons/ic_pump_normal_white.svg';
 import useFuelTypesWithCurrentPrice, {
   FuelTypeWithCurrentPriceRecord,
-} from '../hooks/use-fuel-types-with-current-price.hook';
+} from '../../hooks/use-fuel-types-with-current-price.hook';
 
 let modalTopMargin: number;
 
@@ -235,7 +235,7 @@ const SelectedLitresText = ({
     </Text>
   ) : null;
 
-const DropDown = ({
+const PurchaseDropdown = ({
   overlayColor,
   placeholder,
   showSelectedLitres = true,
@@ -319,4 +319,4 @@ const DropDown = ({
   );
 };
 
-export default DropDown;
+export default PurchaseDropdown;

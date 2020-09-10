@@ -5,7 +5,7 @@ import THEME_COLORS from '../../styles/theme.styles';
 import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
 import Button from '../../components/button.component';
 import PurchaseCalculator from '../../components/purchase-calculator.component';
-import DropDown from '../../components/drop-down.component';
+import PurchaseDropdown from './purchase-dropdown.component';
 import InfoIcon from '../../assets/icons/ic_info.svg'
 import { getRoutePath, HOME_ROUTE } from '../../routing/routes';
 import { FuelTypeWithCurrentPriceRecord } from '../../hooks/use-fuel-types-with-current-price.hook';
@@ -120,7 +120,7 @@ const PurchaseFuel = () => {
     <ShowStatusBarLayout>
       <ScrollView>
         <FuelTypesContainer>
-          <DropDown
+          <PurchaseDropdown
             onItemSelected={e => setSelectedFuelType(e)}
             overlayColor={THEME_COLORS.PRIMARY}
             isOpen={!isModalVisible}
