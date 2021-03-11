@@ -11,7 +11,6 @@ import THEME_COLORS from '../../styles/theme.styles';
 import CheckIcon from '../../assets/icons/ic_check.svg';
 import Button from '../../components/button.component';
 import { WithdrawalType } from '../../models/withdrawal-enums';
-import { operationsRefetch } from '../home/home';
 
 
 const styles = StyleSheet.create({
@@ -74,13 +73,7 @@ const styles = StyleSheet.create({
 const WithdrawalOperationCompletePage = () => {
     const navigation = useNavigation();
     const [withdrawalContext, dispatch] = useContext(WithdrawalContext);
-    const walletsHook = useWallets();
     const operationId = useNavigationParam("operationId");
-
-    useEffect(() => {
-        walletsHook.refetch();
-        operationsRefetch();
-    }, []);
 
     const finish = () => {
         dispatch({ type: WITHDRAWAL_ACTIONS.CLEAN_STORE });

@@ -76,12 +76,12 @@ const TransferAmountSelectionPage = () => {
   };
 
   useEffect(() => {
-    if (litres > 0 && selectedFuelType && selectedFuelType.availableLitres >= litres) {
+    if (litres > 0 && selectedFuelType && +selectedFuelType.availableLitres.toFixed(2) >= litres) {
       setIsContinueButtonEnabled(true);
       dispatch({
         type: TRANSFER_ACTIONS.SET_LITRES,
         payload: {
-          litres: litres
+          litres: litres > selectedFuelType.availableLitres ? selectedFuelType.availableLitres : litres
         },
       });
       dispatch({

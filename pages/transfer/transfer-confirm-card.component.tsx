@@ -77,7 +77,7 @@ const IconRender = () => {
 
 const OperationValueLabel = ({ value }: { value: number }) => {
     const formattedValue = value.toLocaleString("es-ar", {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
     }) + " lt";
     return (
         <Text style={styles.value}>-{formattedValue}</Text>

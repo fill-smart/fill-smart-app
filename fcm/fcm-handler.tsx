@@ -4,12 +4,10 @@ import { PushNotificationTypesEnum } from '../contexts/fcm.context';
 import useParameters from '../hooks/use-parameters.hook';
 import useLogin from '../hooks/use-login.hook';
 import useNotifications from '../hooks/use-notifications';
-import useFuelTypesWithCurrentPrice from '../hooks/use-fuel-types-with-current-price.hook';
 import useWallets from '../hooks/use-wallets';
-import useOperations from '../hooks/use-operations';
 import useFuelPriceVariations from '../hooks/use-fuel-price-variations.hook';
-import { operationsRefetch } from '../pages/home/home';
 import TransferNotificationModal from '../components/transfer-notification-modal.component';
+import { operationsRefetch } from '../pages/home/home';
 
 
 const FcmHandler = ({ children }: { children: Element }) => {

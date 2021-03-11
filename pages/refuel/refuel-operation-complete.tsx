@@ -2,19 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { useNavigationParam, useNavigation } from 'react-navigation-hooks';
-
-import OperationCompleteCard from '../../components/operation-complete-card.component';
 import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
-import OperationType from '../../models/operation-type.enum';
 import { RefuelContext, REFUEL_ACTIONS } from '../../contexts/refuel.context';
 import { getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
 import useWallets from '../../hooks/use-wallets';
-import useOperations from '../../hooks/use-operations';
 import Button from '../../components/button.component';
 import CheckIcon from '../../assets/icons/ic_check.svg';
 import THEME_COLORS from '../../styles/theme.styles';
 import moment from 'moment';
-import { operationsRefetch } from '../home/home';
 
 
 const styles = StyleSheet.create({
@@ -84,15 +79,8 @@ const styles = StyleSheet.create({
 const RefuelOperationCompletePage = () => {
     const navigation = useNavigation();
     const [refuelContext, dispatch] = useContext(RefuelContext);
-    const walletsHook = useWallets();    
-
     const operationId: string = useNavigationParam("operationId");
     const pumpId: string = useNavigationParam("pumpId");
-
-    useEffect(() => {
-        walletsHook.refetch();
-        operationsRefetch();    
-    }, []);
 
     const finish = () => {
         dispatch({ type: REFUEL_ACTIONS.CLEAN_STORE });

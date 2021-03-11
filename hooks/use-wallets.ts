@@ -56,7 +56,7 @@ const useWallets = (pageSize: number = 10) => {
           value: state.user?.id,
         }),
       },
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'no-cache'
     },
   );
 

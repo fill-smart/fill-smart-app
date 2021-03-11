@@ -8,7 +8,6 @@ import { ICustomerModel } from '../models/customer.model';
 export interface IEditProfileRequest {
     firstName: string;
     lastName: string;
-    documentNumber: string;
     cbu: string;
     cbuAlias: string;
     mercadopagoAccount: string;
@@ -29,14 +28,12 @@ const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile(
     $firstName: String!, 
     $lastName: String!, 
-    $documentNumber: String!, 
     $cbu: String, 
     $cbuAlias: String, 
     $mercadopagoAccount: String) {
     editProfile(data: {
       firstName: $firstName, 
       lastName: $lastName, 
-      documentNumber: $documentNumber
       cbu: $cbu
       cbuAlias: $cbuAlias
       mercadopagoAccount: $mercadopagoAccount
@@ -61,7 +58,6 @@ const useEditProfile = () => {
       variables: {
         firstName: requestData.firstName,
         lastName: requestData.lastName,
-        documentNumber: requestData.documentNumber,
         cbu: requestData.cbu,
         cbuAlias: requestData.cbuAlias,
         mercadopagoAccount: requestData.mercadopagoAccount,

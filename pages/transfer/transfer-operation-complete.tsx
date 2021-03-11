@@ -9,7 +9,6 @@ import useOperations from '../../hooks/use-operations';
 import THEME_COLORS from '../../styles/theme.styles';
 import CheckIcon from '../../assets/icons/ic_check.svg';
 import Button from '../../components/button.component';
-import { operationsRefetch } from '../home/home';
 import { TransferContext, TRANSFER_ACTIONS } from '../../contexts/transfer.context';
 
 
@@ -74,13 +73,7 @@ const styles = StyleSheet.create({
 const TransferOperationCompletePage = () => {
     const navigation = useNavigation();
     const [transferCtx, dispatch] = useContext(TransferContext);
-    const walletsHook = useWallets();
     const operationId = useNavigationParam("operationId");
-
-    useEffect(() => {
-        walletsHook.refetch();
-        operationsRefetch();
-    }, []);
 
     const finish = () => {
         dispatch({ type: TRANSFER_ACTIONS.CLEAN_STORE });

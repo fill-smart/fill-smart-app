@@ -181,8 +181,6 @@ function showWalletAmountExceededMessage(
   return result;
 }
 
-let equivalency = 0;
-
 const ExchangeCalculator = ({
   sourceWalletLitrePrice,
   targetWalletLitrePrice,
@@ -197,6 +195,7 @@ const ExchangeCalculator = ({
   onLitresCalculated: (sourceLitres: number, targetLitres: number) => void;
 }) => {
   const [displayValue, setDisplayValue] = useState("0");
+  const [equivalency, setEquivalency] = useState(0);
   const [isLitreTabSelected, setIsLitreTabSelected] = useState(true);
   const [walletAmountInsufficientMessage, setWalletAmountInsufficientMessage] = useState(false);
   const [walletLimitExceededMessage, setWalletLimitExceededMessage] = useState(false);
@@ -216,7 +215,7 @@ const ExchangeCalculator = ({
   };
 
   useEffect(() => {
-    calculateEquivalency(displayValue);
+    setEquivalency(calculateEquivalency(displayValue));
   }, [sourceWalletLitrePrice, targetWalletLitrePrice]);
 
   useEffect(() => {
@@ -274,17 +273,17 @@ const ExchangeCalculator = ({
     if (walletLimitExceeded) {
       return;
     }
-    equivalency = nextEquivalency;
+    setEquivalency(nextEquivalency);
     setDisplayValue(newDisplayValue);
   };
 
   const onDeleteButtonPressed = () => {
     const newDisplayValue = displayValue.slice(0, -1);
     if (displayValue === '0' || newDisplayValue === '') {
-      equivalency = calculateEquivalency("0");
+      setEquivalency(calculateEquivalency("0"));
       setDisplayValue("0");
     } else {
-      equivalency = calculateEquivalency(newDisplayValue);
+      setEquivalency(calculateEquivalency(newDisplayValue));
       setDisplayValue(newDisplayValue);
     }
 

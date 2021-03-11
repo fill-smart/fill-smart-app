@@ -15,6 +15,8 @@ import Loader from '../../components/loader.component';
 import { TransferContext } from '../../contexts/transfer.context';
 import useTransfer from '../../hooks/use-transfer.hook';
 import TransferConfirmCard from './transfer-confirm-card.component';
+import OperationTimeExceededModal from '../../components/operation-time-exceeded.modal.component';
+import { ApolloError } from 'apollo-boost';
 
 
 const Container = styled.View`
@@ -47,17 +49,17 @@ const TransferConfirmPage = () => {
         executeTransfer();
     };
 
-    if (loading || waitExecute) {
-        return <Loader />;
-    }
-
     if (error) {
         crashlytics().recordError(error);
         return (<ErrorPage
             buttonLabel="Aceptar"
             errorMsg="Ocurrió un error inesperado"
-            descriptionMsg="Por favor intente nuevamente"
+            descriptionMsg="Es posible que se hayan superado los límites de litros permitidos. Por favor intente nuevamente."
             onPress={goBack} />);
+    }
+
+    if (loading || waitExecute) {
+        return <Loader />;
     }
 
     return (

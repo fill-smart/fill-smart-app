@@ -8,8 +8,7 @@ import { useNavigationParam, useNavigation } from 'react-navigation-hooks';
 import useWallets from '../../hooks/use-wallets';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
-import useOperations from '../../hooks/use-operations';
-import { operationsRefetch } from '../home/home';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -20,14 +19,8 @@ const styles = StyleSheet.create({
 const ExchangeOperationCompletePage = () => {
     const navigation = useNavigation();
     const [_, dispatch] = useContext(ExchangeWalletContext);
-    const walletsHook = useWallets();
     const receiptId:string = useNavigationParam("receiptId");
     const title:string =  useNavigationParam("title");
-
-    useEffect(() => {
-        walletsHook.refetch();
-        operationsRefetch();        
-    }, []);
 
     const finish = () => {
         dispatch({ type: EXCHANGE_WALLET_ACTIONS.CLEAN_STORE });

@@ -19,9 +19,7 @@ import { getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
 import useWallets from '../../hooks/use-wallets';
 import { StackActions, NavigationActions } from 'react-navigation';
 import useFcmNotifications from '../../hooks/use-fcm-notification.hook';
-import useOperations from '../../hooks/use-operations';
 import styled from 'styled-components/native';
-import { operationsRefetch } from '../home/home';
 
 
 const IconTextContainer = styled.View` 
@@ -113,12 +111,6 @@ const PurchaseResult = () => {
   // );
   const receiptId = useNavigationParam("operationId");
   const [purchase, dispatchPurchase] = useContext(PurchaseFuelContext);
-  const walletsHook = useWallets();
-
-  useEffect(() => {
-    walletsHook.refetch();
-    operationsRefetch();
-  }, []);
 
   const finishPurchase = () => {
     dispatchFcm({

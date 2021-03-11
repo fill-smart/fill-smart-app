@@ -2,11 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { FlatList, Dimensions, View, Animated } from 'react-native';
 import WalletCard from './wallet-card.component';
-import useWallets from '../hooks/use-wallets';
+import useWallets, { WalletRecord } from '../hooks/use-wallets';
 import Loader from './loader.component';
 import Card from './card-component';
 import THEME_COLORS from '../styles/theme.styles';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { ApolloError } from 'apollo-boost';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -68,8 +69,7 @@ const CarouselPointActive = styled(Animated.View)`
 
 let pressedItemIndex = 0;
 
-const WalletCarousel = () => {
-  const { wallets, loading, error } = useWallets();
+const WalletCarousel = ({wallets, loading, error} : {wallets: WalletRecord[] | undefined, loading: boolean, error: ApolloError | undefined}) => {
   const walletList = useRef<FlatList<any>>(null);
   const [expandItems, setExpandItems] = useState(false);
   let animVal = new Animated.Value(0);

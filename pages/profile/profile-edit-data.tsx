@@ -12,10 +12,11 @@ import { useForm } from 'react-hook-form'
 import Button from '../../components/button.component';
 import moment from 'moment';
 import useEditProfile, { IEditProfileRequest } from '../../hooks/use-edit-profile.hook';
-import useProfile, { ProfileRecord } from '../../hooks/use-profile';
+import useProfile, { IProfileResult, ProfileRecord } from '../../hooks/use-profile';
 import { SecurityContext } from '../../contexts/security.context';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Loader from '../../components/loader.component';
+import { ApolloQueryResult } from 'apollo-boost';
 
 
 const Container = styled.View`
@@ -42,7 +43,7 @@ const ProfileEditDataPage = () => {
     const navigation = useNavigation();
     const profileHook = useProfile();
     const profile = useNavigationParam("profile") ?? profileHook.profile;
-    const refetch = useNavigationParam("refetch") ?? profileHook.refetch;
+    const refetch: (variables?: Record<string, any> | undefined) => Promise<ApolloQueryResult<IProfileResult>> = useNavigationParam("refetch") ?? profileHook.refetch;
     const [securityCtx] = useContext(SecurityContext);
     const editProfile = useEditProfile();
     const { control, register, setValue, setError, handleSubmit, errors, formState, watch, getValues } = useForm<IEditProfileRequest>()
@@ -56,7 +57,6 @@ const ProfileEditDataPage = () => {
         if (profile){
             register({ name: 'firstName', value: profile?.customer.firstName }, { required: true });
             register({ name: 'lastName', value: profile?.customer.lastName }, { required: true });
-            register({ name: 'documentNumber', value: profile?.customer.documentNumber }, { required: "Debe ingresar un valor" });
             register({ name: 'cbu', value: profile?.customer.cbu });
             register({ name: 'cbuAlias', value: profile?.customer.cbuAlias });
             register({ name: 'mercadopagoAccount', value: profile?.customer.mercadopagoAccount });
@@ -66,15 +66,8 @@ const ProfileEditDataPage = () => {
 
     const onSubmit = async (data: IEditProfileRequest) => {
         try {
-            //validate date        
-            // const birthDate = moment(data.birthDate);
-            // if (!birthDate.isValid()) {
-            //     setError("birthDate", "Fecha inválida. Ingrese con formato dd/mm/yyyy");
-            //     return;
-            // }
             editProfile.executeEditProfile(data);
-            await refetch();
-            goBack();
+            await refetch().then((result) => {goBack()});
         }
         catch (error) {
             crashlytics().recordError(error);
@@ -87,7 +80,6 @@ const ProfileEditDataPage = () => {
     };
 
     const errorStyle: { label: string; border: string, text: string } = { label: THEME_COLORS.DANGER, border: THEME_COLORS.DANGER, text: THEME_COLORS.FONT_REGULAR };
-    const screenHeight = Math.round(Dimensions.get('window').height) - 80;
 
     if (profileHook.loading) {
         return <Loader />
@@ -123,22 +115,10 @@ const ProfileEditDataPage = () => {
                                         ref={surname}
                                         defaultValue={profile?.customer.lastName}
                                         returnKeyType="done"
-                                        onSubmitEditing={() => documentNumber?.current?.focus()}
+                                        onSubmitEditing={() => cbu?.current?.focus()}
                                         onChangeText={text => setValue('lastName', text, true)}
                                         label={errors.lastName ? "Debe ingresar su apellido" : "Apellido"}
                                         colors={errors.lastName ? errorStyle : undefined} />
-                                </View>
-
-                                <View style={{ marginTop: 20 }}>
-                                    <Input
-                                        ref={documentNumber}
-                                        defaultValue={profile?.customer.documentNumber}
-                                        returnKeyType="done"
-                                        onSubmitEditing={() => cbu?.current?.focus()}
-                                        keyboardType="number-pad"
-                                        onChangeText={text => setValue('documentNumber', text, true)}
-                                        label={errors.documentNumber ? errors.documentNumber.message : "DNI"}
-                                        colors={errors.documentNumber ? errorStyle : undefined} />
                                 </View>
 
                                 <View style={{ marginTop: 20 }}>

@@ -6,10 +6,9 @@ import OperationType from '../../models/operation-type.enum';
 import { useNavigationParam, useNavigation } from 'react-navigation-hooks';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { getRoutePath, HOME_ROUTE, APP_ROUTES } from '../../routing/routes';
-import useOperations from '../../hooks/use-operations';
 import { PaymentInStoreContext, PAYMENT_IN_STORE_ACTIONS } from '../../contexts/payment-in-store.context';
 import useWallets from '../../hooks/use-wallets';
-import { operationsRefetch } from '../home/home';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -20,13 +19,7 @@ const styles = StyleSheet.create({
 const PaymentInStoreOperationCompletePage = () => {
     const navigation = useNavigation();
     const [paymentCtx, dispatch] = useContext(PaymentInStoreContext);
-    const walletsHook = useWallets();
     const operationId = useNavigationParam("operationId");
-
-    useEffect(() => {
-        walletsHook.refetch();
-        operationsRefetch();
-    }, []);
 
     const finish = () => {
         dispatch({ type: PAYMENT_IN_STORE_ACTIONS.CLEAN_STORE });

@@ -35,9 +35,6 @@ const PurchasePayment = () => {
     });
     sendRequest();
   }, []);
-  if (loading || !purchase || !purchase.preferenceUrl) {
-    return <Loader />;
-  }
 
   const goResult = () => {
     navigation.navigate(getRoutePath(HOME_ROUTE.PurchaseResult, HOME_ROUTE), { operationId: purchase.id });
@@ -68,6 +65,10 @@ const PurchasePayment = () => {
       onPress={goBack} />);
   }
 
+  if (loading || !purchase || !purchase.preferenceUrl) {
+    return <Loader />;
+  }
+  
   return (
     <React.Fragment>
       <WebView

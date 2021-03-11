@@ -26,8 +26,8 @@ export const defaultConnectionContextValue: IConnectionContext = {
     isConnected: true
 };
 
-export const ConnectionContext = createContext<[IConnectionContext, React.Dispatch<IConnectionActions>]>
-    ((null as unknown) as [IConnectionContext, React.Dispatch<IConnectionActions>]);
+export const ConnectionContext = createContext
+    ({} as [IConnectionContext, React.Dispatch<IConnectionActions>]);
 
 export const ConnectionContextProvider = ({ children }: { children: Element }) => {
     const [state, dispatch] = useReducer<Reducer<IConnectionContext, IConnectionActions>>((state, action) => {

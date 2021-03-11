@@ -96,7 +96,7 @@ const useOperations = (criteria?: {
         skip,
         sort: JSON.stringify(criteria?.sort),
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: 'no-cache'
     }
   );
 

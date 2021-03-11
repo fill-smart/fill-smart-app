@@ -1,15 +1,11 @@
 import useWallets, {WalletRecord} from './use-wallets';
 import { ApolloError } from 'apollo-boost';
 
-//Wrapper form object to touple
-const getInfoFromWallets = (): [WalletRecord[] | undefined, boolean, ApolloError | undefined] => {
-  const {wallets, loading, error} = useWallets();
-  return [wallets, loading, error];
-};
-
-const useSummary = () => {
-  const [walletsInfo, loadingWallets, error] = getInfoFromWallets();
-
+const useSummary = (
+  walletsInfo: WalletRecord[] | undefined,
+  loadingWallets: boolean,
+  error: ApolloError | undefined
+) => {
   const litres =
     walletsInfo?.map(wallet => wallet.litres).reduce((p, n) => p + n, 0) ?? 0;
   const availableLitres =

@@ -1,19 +1,7 @@
 import crashlytics from '@react-native-firebase/crashlytics';
 import { ApolloQueryResult } from 'apollo-boost';
 import React, { useContext, useState } from 'react';
-import {
-  Alert, Dimensions,
-
-
-
-  GestureResponderEvent,
-
-  RefreshControl, ScrollView, Text,
-
-
-
-  TouchableOpacity, View
-} from 'react-native';
+import { Alert, Dimensions, GestureResponderEvent, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
 import styled from 'styled-components/native';
 import ExchangeWalletIcon from '../../assets/icons/ic_exchange_wallets_white.svg';
@@ -27,28 +15,30 @@ import Pump from '../../assets/icons/ic_pump_primary.svg';
 import TopupIcon from '../../assets/icons/ic_topup_white.svg';
 import TransferLitresIcon from '../../assets/icons/ic_transfer_litres_white.svg';
 import IconSeparator from '../../components/icon-separator.component';
-import MovementList from '../../components/movement-list.component';
 import MyAccountSummary from '../../components/my-account-summary.component';
 import WalletCarousel from '../../components/wallet-carousel.component';
 import { ConnectionContext } from '../../contexts/connection-context';
 import { SecurityContext } from '../../contexts/security.context';
 import useFuelPriceVariations from '../../hooks/use-fuel-price-variations.hook';
-import { IOperationsResult } from '../../hooks/use-operations';
+import useOperations, { IOperationsResult } from '../../hooks/use-operations';
 import useWallets from '../../hooks/use-wallets';
 import ShowStatusBarLayout from '../../layouts/show-status-bar.layout';
 import { APP_ROUTES, getRoutePath, HOME_ROUTE } from '../../routing/routes';
 import THEME_COLORS from '../../styles/theme.styles';
 import FuelPricesVariation from './fuel-price-variations';
 import HomeMovementList from '../../components/home-movement-list.component';
+import { QueryCriteria, FilterTypesEnum } from '../../filters';
+import { PurchaseStatusEnum } from '../../models/purchase.model';
+import useSummary from '../../hooks/use-summary.hook';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const cardWidth = (screenWidth - 15 * 5) / 2;
 
 const Page = styled.View`
   padding-right: 24px;
-  padding-left: 24px;
+  padding-left: 24px;  
   background-color: ${THEME_COLORS.BACKGROUND_DARK};
-  flex: 1;
+  flex-grow: 1;
 `;
 
 const SeparatorView = styled.View`
@@ -99,12 +89,87 @@ const BigButton =
 export let operationsRefetch: (variables?: Record<string, any> | undefined) => Promise<ApolloQueryResult<IOperationsResult>>;
 
 const Home = () => {
-  const { refetch: walletsRefetch } = useWallets();
-  const { refetch: fuelPriceVariationsRefetch } = useFuelPriceVariations();
+  const [securityCtx] = useContext(SecurityContext);
+  const listCriteria: QueryCriteria = {
+    pagination: {
+      current: 1,
+      pageSize: 6
+    },
+    sort: [{
+      property: "stamp",
+      descending: true
+    }],
+    filter: {
+      and: [
+        {
+          or: [
+            {
+              property: "authorizationStatus",
+              value: "",
+              type: FilterTypesEnum.IsNull
+            },
+            {
+              property: "authorizationStatus",
+              value: "authorized",
+              type: FilterTypesEnum.Equals
+            }
+          ],
+        },
+        {
+          or: [
+            {
+              property: "transferWithdrawalAuthorized",
+              value: true,
+              type: FilterTypesEnum.Equals
+            },
+            {
+              property: "transferWithdrawalAuthorized",
+              value: "",
+              type: FilterTypesEnum.IsNull
+            },
+          ]
+        },
+        {
+          or: [
+            {
+              property: "userId",
+              value: securityCtx?.user?.id,
+              type: FilterTypesEnum.Equals
+            },
+            {
+              property: "targetUserId",
+              value: securityCtx?.user?.id,
+              type: FilterTypesEnum.Equals
+            },
+          ]
+        },
+        {
+          or: [
+            {
+              property: "purchaseStatus",
+              value: PurchaseStatusEnum.Completed,
+              type: FilterTypesEnum.Equals
+            },
+            {
+              property: "purchaseStatus",
+              value: "",
+              type: FilterTypesEnum.IsNull
+            },
+          ]
+        }
+      ]
+    }
+  };
+  const { operations, loading: operationsLoading, error: operationsError, refetch: operationsRefetchHook } = useOperations(listCriteria);
+  const { wallets, loading: walletsLoading, error: walletsError, refetch: walletsRefetch } = useWallets();
+  const { litres, availableLitres, money, availableMoney, loading: summaryLoading, error: summaryError } = useSummary(wallets, walletsLoading, walletsError);
+  const { fuelTypesWithPrices, loading: fuelPriceVariationsLoading, error: fuelPriceVariationsError, refetch: fuelPriceVariationsRefetch } = useFuelPriceVariations();
   const [refreshing, setRefreshing] = useState(false);
   const [conn] = useContext(ConnectionContext);
-  const [securityCtx] = useContext(SecurityContext);
   const navigation = useNavigation();
+  
+  operationsRefetch = operationsRefetchHook;
+  const loading = operationsLoading || walletsLoading || summaryLoading || fuelPriceVariationsLoading;
 
   const onRefresh = () => {
     if (!conn.isConnected) {
@@ -168,9 +233,20 @@ const Home = () => {
             <IconSeparator text="Mis litros" icon={<Pump />} />
           </SeparatorView>
 
-          <WalletCarousel />
+          <WalletCarousel 
+            wallets={wallets}
+            loading={loading}
+            error={walletsError}
+          />
 
-          <MyAccountSummary />
+          <MyAccountSummary
+            litres={litres}
+            availableLitres={availableLitres}
+            availableMoney={availableMoney}
+            money={money}
+            loading={loading}
+            error={summaryError}
+          />
 
           <View
             style={{
@@ -343,8 +419,10 @@ const Home = () => {
           </SeparatorView>
 
           <HomeMovementList
+            operations={operations}
+            loading={loading}
+            error={operationsError}
             onFooterPress={goMyAccount}
-            onRefetch={(refetch) => {operationsRefetch = refetch}}
           />
 
           <SeparatorView>
@@ -353,7 +431,11 @@ const Home = () => {
               icon={<FuelPriceIcon />}
             />
           </SeparatorView>
-          <FuelPricesVariation />
+          <FuelPricesVariation 
+            fuelTypesWithPrices={fuelTypesWithPrices}
+            loading={loading}
+            error={fuelPriceVariationsError}
+          />
         </Page>
       </ScrollView>
     </ShowStatusBarLayout>

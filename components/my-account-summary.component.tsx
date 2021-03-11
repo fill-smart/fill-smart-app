@@ -9,6 +9,7 @@ import useSummary from '../hooks/use-summary.hook';
 import Loader from './loader.component';
 import THEME_MEASUREMENTS from '../styles/measurements.styles';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { ApolloError } from 'apollo-boost';
 
 
 const SummaryCard = styled(Card)`
@@ -77,21 +78,24 @@ const SummaryValueContainer = styled.View`
   justify-content: space-between;
 `;
 
-const MyAccountSummary = () => {
-  const {
-    loading,
-    error,
-    litres,
-    availableLitres,
-    money,
-    availableMoney,
-    annualProfitability,
-    monthlyProfitability,
-  } = useSummary();
-
+const MyAccountSummary = ({
+  litres,
+  availableLitres,
+  money,
+  availableMoney,
+  loading,
+  error,
+}: {
+  litres: number,
+  availableLitres: number,
+  money: number,
+  availableMoney: number,
+  loading: boolean,
+  error: ApolloError | undefined,
+}) => {
   if (loading) {
     return (
-      <SummaryCard style={{ height: 100 }}>
+      <SummaryCard style={{ minHeight: 100 }}>
         <Loader height={40} width={40} />
       </SummaryCard>);
   }
@@ -99,7 +103,7 @@ const MyAccountSummary = () => {
   if (error) {
     crashlytics().recordError(error);
     return (
-      <SummaryCard style={{ height: 100, justifyContent: "center" }}>
+      <SummaryCard style={{ minHeight: 100, justifyContent: "center" }}>
         <ErrorLabel>
           Error al obtener los datos de resumen.
         </ErrorLabel>

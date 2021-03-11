@@ -12,6 +12,7 @@ import moment from 'moment';
 import Loader from '../../components/loader.component';
 import { View } from 'react-native';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { ApolloError } from 'apollo-boost';
 
 const PricesCard = styled(Card)`
   height: 180px;  
@@ -106,9 +107,15 @@ const FuelPriceVariation = ({ type }: { type: IFuelTypePriceWithVariation }) => 
   );
 };
 
-const FuelPricesVariation = () => {
-  const { fuelTypesWithPrices, loading, error } = useFuelPriceVariations();
-
+const FuelPricesVariation = ({
+  fuelTypesWithPrices,
+  loading,
+  error,
+}: {
+  fuelTypesWithPrices: IFuelTypePriceWithVariation[] | undefined,
+  loading: boolean,
+  error: ApolloError | undefined,
+}) => {
   if (loading) {
     return (
       <PricesCard>
